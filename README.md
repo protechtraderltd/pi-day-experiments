@@ -21,3 +21,5 @@
 - Upload lcd_api.py + pico_i2c_lcd.py to Pico first (from github.com/T-622/RPI-PICO-I2C-LCD)
 - Run i2c_scan.py to verify address
 - Run pi_lcd.py
+
+- **TikTok:** [@ProTechTrader](https://www.tiktok.com/@protechtrader)

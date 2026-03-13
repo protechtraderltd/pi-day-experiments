@@ -23,21 +23,31 @@ lcd = I2cLcd(i2c, I2C_ADDR, I2C_ROWS, I2C_COLS)
 PI = ("3.14159265358979323846264338327950288419716939937510"
       "58209749445923078164062862089986280348253421170679")
 
+# Bottom line message (scrolls if longer than 16 chars)
+BOTTOM_MSG = "Happy Pi Day from ProTechTrader.com "
+
 def scroll_pi():
-    """Scroll Pi digits across top row, static message on bottom"""
-    lcd.move_to(0, 1)
-    lcd.putstr("Happy Pi Day!   ")
+    """Scroll Pi digits across top row, scroll message on bottom row"""
+    pi_pos = 0
+    msg_pos = 0
     
-    pos = 0
     while True:
-        display = ""
+        # Top row: Pi digits
+        pi_display = ""
         for i in range(I2C_COLS):
-            display += PI[(pos + i) % len(PI)]
-        
+            pi_display += PI[(pi_pos + i) % len(PI)]
         lcd.move_to(0, 0)
-        lcd.putstr(display)
+        lcd.putstr(pi_display)
         
-        pos = (pos + 1) % len(PI)
+        # Bottom row: Scrolling message
+        msg_display = ""
+        for i in range(I2C_COLS):
+            msg_display += BOTTOM_MSG[(msg_pos + i) % len(BOTTOM_MSG)]
+        lcd.move_to(0, 1)
+        lcd.putstr(msg_display)
+        
+        pi_pos = (pi_pos + 1) % len(PI)
+        msg_pos = (msg_pos + 1) % len(BOTTOM_MSG)
         sleep(SCROLL_SPEED)
 
 def main():
@@ -53,7 +63,7 @@ def main():
     lcd.move_to(0, 0)
     lcd.putstr("  Pi Day 2026!  ")
     lcd.move_to(0, 1)
-    lcd.putstr(" ProTechTrader  ")
+    lcd.putstr(" @ProTechTrader ")
     sleep(3)
     
     lcd.clear()
